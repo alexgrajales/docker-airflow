@@ -1,9 +1,13 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.dagrun_operator import TriggerDagRunOperator
+
 #slack
 from airflow.hooks.base_hook import BaseHook
 from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
+from airflow.api.common.experimental.trigger_dag import trigger_dag
+
 
 from datetime import datetime, timedelta
 from airflow.models import Variable
@@ -83,6 +87,11 @@ def tell_slack(**context):
     return alterHook.execute(context=context)
 
 
+def trigger_dag_python(**context):
+    trigger_dag(dag_id='tutorial', run_id="triggered__" + str(datetime.datetime.utcnow()), conf={'process_id': '1'},
+                replace_microseconds=False)
+
+
 Stage7 = PythonOperator(
      task_id ='slack_task2',
      python_callable=tell_slack,
@@ -91,4 +100,42 @@ Stage7 = PythonOperator(
    )
 
 
+trigger_dag_python = PythonOperator(
+     task_id ='trigger_dag_python',
+     python_callable=trigger_dag_python,
+     provide_context=True,
+     dag=dag
+   )
+
+trigger_operator = TriggerDagRunOperator(
+    dag=dag,
+    task_id='trigger_operator',
+    trigger_dag_id="tutorial",
+    execution_date=datetime.utcnow(),
+    trigger_rule='all_done',
+)
+
+
+def post_run_airflow_process(self, url, key):
+    URL = url
+    headers = {'Content-Type': 'application/json', 'Accept': 'application/json, text/plain, */*'}
+    response = requests.post(URL, headers=headers, data='{"conf":"{\\"qr_id\\":\\"%s\\"}"}' % (str(key)), verify=False)
+    result = response.text
+    print(result)
+
+
+def run_api_airflow(**context):
+    post_run_airflow_process('http://172.17.0.1:8080/api/experimental/dags/tutorial/dag_runs', 1)
+
+
+trigger_api = PythonOperator(
+        task_id='slack_task2',
+        python_callable=trigger_api,
+        provide_context=True,
+        dag=dag
+    )
+
+
 Stage1 >> Stage2
+
+trigger_dag_python >> trigger_operator >> trigger_api
