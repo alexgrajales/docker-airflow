@@ -39,7 +39,7 @@ RUN set -ex \
         git \
     ' \
     && apt-get update -yqq \
-    && apt-get install openssh-server \
+    && apt-get install openssh-server -yqq \
     && ssh-keygen -q -t rsa -N '' -f ./keys/id_rsa \
     && apt-get upgrade -yqq \
     && apt-get install -yqq --no-install-recommends \
@@ -67,6 +67,8 @@ RUN set -ex \
     && apt-get purge --auto-remove -yqq $buildDeps \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
+    && apt-get install openssh-server -yqq \
+    && ssh-keygen -q -t rsa -N '' -f ./keys/id_rsa \
     && rm -rf \
         /var/lib/apt/lists/* \
         /tmp/* \
@@ -79,6 +81,8 @@ COPY script/entrypoint.sh /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
 RUN chown -R airflow: ${AIRFLOW_USER_HOME}
+RUN chown -R airflow: ${AIRFLOW_USER_HOME}/keys
+RUN chown -R airflow: ${AIRFLOW_USER_HOME}/plugins
 
 EXPOSE 8080 5555 8793
 
