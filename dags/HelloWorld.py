@@ -129,7 +129,7 @@ def run_api_airflow(**context):
 
 
 trigger_api = PythonOperator(
-        task_id='slack_task2',
+        task_id='trigger_api',
         python_callable=run_api_airflow,
         provide_context=True,
         dag=dag
