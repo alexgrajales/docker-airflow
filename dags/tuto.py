@@ -5,7 +5,7 @@ http://airflow.readthedocs.org/en/latest/tutorial.html
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta
-
+from airflow.contrib.operators.ssh_operator import SSHOperator
 
 default_args = {
     "owner": "airflow",
@@ -44,5 +44,14 @@ t3 = BashOperator(
     dag=dag,
 )
 
+day_file_check = SSHOperator(
+    task_id='day_file_check',
+    ssh_conn_id="ssh_ec2",
+    command="pwd",
+    do_xcom_push=True,
+    dag=dag
+)
+
 t2.set_upstream(t1)
 t3.set_upstream(t1)
+day_file_check.set_upstream(t1)

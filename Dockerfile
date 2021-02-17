@@ -40,7 +40,7 @@ RUN set -ex \
     ' \
     && apt-get update -yqq \
     && apt-get install openssh-server -yqq \
-    && ssh-keygen -q -t rsa -N '' -f ./keys/id_rsa \
+    #    && ssh-keygen -q -t rsa -N '' -f ./keys/id_rsa \
     && apt-get upgrade -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
@@ -61,6 +61,8 @@ RUN set -ex \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
+    && pip uninstall SQLAlchemy
+    && pip install SQLAlchemy==1.3.15
     && pip install apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && pip install 'redis==3.2' \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
@@ -68,7 +70,6 @@ RUN set -ex \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
     && apt-get install openssh-server -yqq \
-    && ssh-keygen -q -t rsa -N '' -f ./keys/id_rsa \
     && rm -rf \
         /var/lib/apt/lists/* \
         /tmp/* \
@@ -81,8 +82,6 @@ COPY script/entrypoint.sh /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
 RUN chown -R airflow: ${AIRFLOW_USER_HOME}
-RUN chown -R airflow: ${AIRFLOW_USER_HOME}/keys
-RUN chown -R airflow: ${AIRFLOW_USER_HOME}/plugins
 
 EXPOSE 8080 5555 8793
 
