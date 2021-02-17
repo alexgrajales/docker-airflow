@@ -88,7 +88,7 @@ def tell_slack(**context):
 
 
 def trigger_dag_python(**context):
-    trigger_dag(dag_id='tutorial', run_id="triggered__" + str(datetime.datetime.utcnow()), conf={'process_id': '1'},
+    trigger_dag(dag_id='tutorial', run_id="triggered__" + str(datetime.utcnow()), conf={'process_id': '1'},
                 replace_microseconds=False)
 
 
