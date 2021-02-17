@@ -2,7 +2,7 @@ version: '2.1'
 services:
     redis:
         image: 'redis:5.0.5'
-        # command: redis-server --requirepass redispass
+        command: redis-server --requirepass redispass
 
     postgres:
         image: postgres:9.6
