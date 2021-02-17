@@ -4,7 +4,7 @@
 3. cd docker-airflow-custom
 4. git clone https://github.com/alexgrajales/docker-airflow.git
 5. cd docker-airflow
-6. docker-compose -f docker-compose-CeleryExecutor.yml up -d
+6. docker-compose -f docker-compose-CeleryExecutor.yml up -d # para bajar los contenedores(docker-compose -f docker-compose-CeleryExecutor.yml down)
 7. docker exec -it docker-airflow_worker_1 /bin/bash
 8. cd keys
 9. ssh-keygen -t rsa -f my_rsa_key

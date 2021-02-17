@@ -37,7 +37,7 @@ Stage2 = BashOperator(
     dag=dag)
 
 #function to get the number 7
-def seven():
+def seven(**context):
     return 7
 
 #First Way to push using xcom
@@ -54,7 +54,7 @@ def pushnine(**context):
 Stage5 = PythonOperator(
     task_id = 'push9',
     python_callable = pushnine,
-    dag = dag
+    dag=dag
     )
 
 def getNINE(**context):
@@ -78,7 +78,7 @@ def tell_slack(**context):
         http_conn_id='Slack2',
         webhook_token=webhook,
         message = message,
-        username='Vaga',
+        username='airflow',
         dag=dag)
     return alterHook.execute(context=context)
 
