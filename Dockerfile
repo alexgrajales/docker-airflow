@@ -40,7 +40,7 @@ RUN set -ex \
     ' \
     && apt-get update -yqq \
     && apt-get install openssh-server \
-    && ssh-keygen -q -t rsa -N '' -f ./id_rsa \
+    && ssh-keygen -q -t rsa -N '' -f ./keys/id_rsa \
     && apt-get upgrade -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \

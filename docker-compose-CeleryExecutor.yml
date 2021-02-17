@@ -32,6 +32,7 @@ services:
             - ./dags:/usr/local/airflow/dags
             # Uncomment to include custom plugins
             - ./plugins:/usr/local/airflow/plugins
+            - ./keys:/usr/local/airflow/keys
         ports:
             - "8080:8080"
         command: webserver
@@ -61,7 +62,8 @@ services:
         volumes:
             - ./dags:/usr/local/airflow/dags
             # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ./plugins:/usr/local/airflow/plugins
+            - ./keys:/usr/local/airflow/keys
         environment:
             - LOAD_EX=n
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
@@ -80,7 +82,8 @@ services:
         volumes:
             - ./dags:/usr/local/airflow/dags
             # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ./plugins:/usr/local/airflow/plugins
+            - ./keys:/usr/local/airflow/keys
         environment:
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
@@ -99,6 +102,7 @@ services:
 #            - ./dags:/usr/local/airflow/dags
 #            # Uncomment to include custom plugins
 #            - ./plugins:/usr/local/airflow/plugins
+#            - ./keys:/usr/local/airflow/keys
 #        environment:
 #            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
 #            - EXECUTOR=Celery
