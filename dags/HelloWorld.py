@@ -15,6 +15,7 @@ from airflow.models import Variable
 #XCOM abbreviation for cross communication
 #push and pull
 
+value_variable = Variable.get('test')
 
 default_args = {
     'owner': 'learning',
@@ -32,7 +33,8 @@ dag = DAG(
 
 Stage1 = BashOperator(
     task_id='Hello',
-    bash_command='echo {{ var.value.test}}',
+    # bash_command='echo {}'.format(value_variable),
+    bash_command='echo {{ var.value.test }}',
     dag=dag)
 
 Stage2 = BashOperator(
