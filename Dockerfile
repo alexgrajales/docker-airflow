@@ -61,9 +61,11 @@ RUN set -ex \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-    && pip uninstall SQLAlchemy
-    && pip install SQLAlchemy==1.3.15
-    && pip install apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
+    && pip install botocore \
+    && pip install boto3 \
+    && pip uninstall SQLAlchemy \
+    && pip install SQLAlchemy==1.3.15 \
+    && pip install -U apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,s3,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && pip install 'redis==3.2' \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
     && apt-get purge --auto-remove -yqq $buildDeps \
@@ -87,5 +89,4 @@ EXPOSE 8080 5555 8793
 
 USER airflow
 WORKDIR ${AIRFLOW_USER_HOME}
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["webserver"]
