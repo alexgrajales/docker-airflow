@@ -63,7 +63,7 @@ pip install dbt
 dbt debug --config-dir
 mkdir ~/.dbt
 cd ~/.dbt
-vi profile
+vi profile.yml
 vamos y editamos el contenido con (recordar correo enviado)
 datawarehouse:
   target: dev

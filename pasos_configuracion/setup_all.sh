@@ -1,6 +1,7 @@
 cd ~/
 sudo yum update -y
 sudo amazon-linux-extras install docker -yqq
+---------------------------------------------
 sudo service docker start
 sudo usermod -a -G docker ec2-user
 sudo systemctl start docker
@@ -28,10 +29,6 @@ git clone https://github.com/alexgrajales/docker-airflow.git
 cd docker-airflow
 sudo docker-compose -f docker-compose-CeleryExecutor.yml down
 sudo docker-compose -f docker-compose-CeleryExecutor.yml up --force-recreate --build -d
-cd keys
-rm my_rsa_key*
-ssh-keygen -q -t rsa -N '' -f my_rsa_key
-cat my_rsa_key.pub >> ~/.ssh/authorized_keys
 sudo yum install python37 -yqq
 cd ~/
 mkdir venv
@@ -41,12 +38,13 @@ python3 -m venv move_files
 source dbt/bin/activate
 pip install dbt
 dbt debug --config-dir
-mkdir ~/.dbt
-cd ~/.dbt
-cat ~/imagenes/docker-airflow-custom/docker-airflow/pasos_configuracion/profile.yml > profile.yml
+cd ~
+git clone https://github.com/alexgrajales/dbt.git
+mkdir .dbt
+cat ~/imagenes/docker-airflow-custom/docker-airflow/pasos_configuracion/profiles.yml > ~/.dbt/profiles.yml
 cd ~
 
-docker run -d -p 3000:3000 \
+sudo docker run -d -p 3000:3000 \
 -v ~/metabase-data:/metabase-data \
 -e "MB_DB_FILE=/metabase-data/metabase.db" \
 --name metabase metabase/metabase
@@ -60,7 +58,24 @@ source /home/ec2-user/venv/move_files/bin/activate
 cd uploads_files/
 pip install -r requirements.txt
 (echo "access_key=''"; echo "secret_key=''"; echo "bucket='nombrebukect'") > settings.py
+
+cd ~
 mkdir .aws
 cd .aws
 (echo "[default]"; echo "aws_access_key_id="; echo "aws_secret_access_key=") > credentials
 (echo "[default]"; echo "region=us-west-2"; echo "output=json") > config
+
+
+
+sudo docker exec -it docker-airflow_worker_1 /bin/bash
+cd keys
+ssh-keygen -t rsa -f my_rsa_key
+exit
+cat /home/ec2-user/imagenes/docker-airflow-custom/docker-airflow/keys/my_rsa_key.pub >> /home/ec2-user/.ssh/authorized_keys
+
+
+1. permisos puertos
+2. usuario ec2
+3. variables y coexion ariflow
+4. archivo configuracion aws
+5. dbt profile
