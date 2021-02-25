@@ -79,6 +79,10 @@ RUN set -ex \
         /usr/share/doc-base
 
 COPY script/entrypoint.sh /entrypoint.sh
+COPY init_airflow/init_variable.sh /init_variable.sh
+COPY init_airflow/variable.json /variable.json
+RUN chmod 777 /init_variable.sh
+RUN chmod 777 /variable.json
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
 
