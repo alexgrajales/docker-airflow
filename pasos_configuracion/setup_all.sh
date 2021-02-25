@@ -28,8 +28,8 @@ git clone https://github.com/alexgrajales/docker-airflow.git
 cd docker-airflow
 sudo docker-compose -f docker-compose-CeleryExecutor.yml down
 sudo docker-compose -f docker-compose-CeleryExecutor.yml up --force-recreate --build -d
-sudo docker-compose -f docker-compose-CeleryExecutor.yml down
 cd keys
+rm my_rsa_key*
 ssh-keygen -q -t rsa -N '' -f my_rsa_key
 cat my_rsa_key.pub >> ~/.ssh/authorized_keys
 sudo yum install python37 -yqq
