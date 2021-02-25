@@ -10,8 +10,10 @@ mkdir dowload_files
 cd dowload_files
 git clone https://github.com/alexgrajales/uploads_files.git
 source /home/ec2-user/venv/move_files/bin/activate
+cd uploads_files/
 pip install -r requirements.txt
 vi settings.py
+(echo "access_key=''"; echo "secret_key=''"; echo "bucket='nombrebukect'") > settings.py
 
 colocar lo siguiente
 access_key=''
@@ -42,10 +44,12 @@ extra={"aws_access_key_id":"_your_aws_access_key_id_", "aws_secret_access_key": 
 configurar aws cli en el servidor https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 mkdir .aws
 cd .aws
+(echo "[default]"; echo "aws_access_key_id="; echo "aws_secret_access_key=") > credentials
+(echo "[default]"; echo "region=us-west-2"; echo "output=json") > config
 vi credentials
 [default]
-aws_access_key_id=AKIAIOSFODNN7EXAMPLE
-aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+aws_access_key_id=
+aws_secret_access_key=
 
 vi config
 [default]
@@ -62,7 +66,7 @@ si no se tiene seguir los pasos del vinculo e instalarlo
 #crear tabla
 crear tabla en sandbox 
 
-CREATE TABLE data_covid (
+CREATE TABLE sandbox.data_covid (
     "fecha reporte web" varchar(100),
     "ID de caso" varchar(100),
     "Fecha de notificación" varchar(100),
@@ -88,6 +92,21 @@ CREATE TABLE data_covid (
     "Nombre del grupo étnico" varchar(100)
 );
 
+CREATE TABLE sandbox.data_ciudades (
+    "Código Departamento" varchar(100),
+    "Nombre Departamento" varchar(100),
+    "Código Municipio" varchar(100),
+    "Nombre Municipio" varchar(100)
+);
+
+
+CREATE TABLE sandbox.data_covid_uci_bogota(
+    "Fecha" varchar(1000),
+    "Camas UCI ocupadas Covid-19" varchar(1000),
+    "Total camas UCI COVID 19 reportadas por IPS" varchar(1000),
+    "Ocupación UCI COVID 19" varchar(1000)
+);
+
 #implementar dag
 
 #pruebas
@@ -97,4 +116,4 @@ CREATE TABLE data_covid (
 # abrir puerto 8001 en la instancia
 ejecutar 
 dbt docs generate --vars "{'schema': 'sandbox'}"
-dbt docs serve --port 8001
+nohup dbt docs serve --port 8001

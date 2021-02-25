@@ -79,6 +79,7 @@ services:
 
     worker:
         image: puckel/docker-airflow:1.10.9
+        entrypoint: /bin/bash -c "/usr/local/airflow/init_airflow/init_variables.sh"
         build: .
         restart: always
         depends_on:
@@ -88,6 +89,7 @@ services:
             # Uncomment to include custom plugins
             - ./plugins:/usr/local/airflow/plugins
             - ./keys:/usr/local/airflow/keys
+            - ./init_airflow:/usr/local/airflow/init_airflow
         environment:
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery

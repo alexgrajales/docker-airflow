@@ -1,0 +1,7 @@
+{
+  "test": "test",
+  "bucket": "storageairflow",
+  "pass_rds_postgres": "",
+  "host_rds_postgres": "",
+  "port_rds_postgres": ""
+}

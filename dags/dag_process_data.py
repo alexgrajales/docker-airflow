@@ -19,6 +19,9 @@ from airflow.models import Variable
 #push and pull
 
 buket = Variable.get('bucket')
+pass_rds_postgres = Variable.get('pass_rds_postgres')
+host_rds_postgres = Variable.get('host_rds_postgres')
+port_rds_postgres = Variable.get('port_rds_postgres')
 
 aws_download = 'aws s3 cp s3://storageairflow/{0}_temp/{1}.csv ~/dbt/datawarehouse/data/'
 
@@ -31,11 +34,11 @@ source venv/dbt/bin/activate && cd ~/dbt/datawarehouse/ && dbt run --profile dat
 
 
 delete_table_ppostgres = """ 
-PGPASSWORD='data2021' psql --host datawharehouse.cjmsjq9pgnrg.us-east-2.rds.amazonaws.com --port 5432 --username postgres -d datawarehouse -c "delete from sandbox.{} where 1=1";
+PGPASSWORD='{0}' psql --host {1} --port {2} --username postgres -d datawarehouse -c "delete from sandbox.{3} where 1=1";
 """
 
 copy_postgres = """
-PGPASSWORD='data2021' psql --host datawharehouse.cjmsjq9pgnrg.us-east-2.rds.amazonaws.com --port 5432 --username postgres -d datawarehouse -c "\\copy sandbox.{0} from '/home/ec2-user/dbt/datawarehouse/data/{1}.csv' with DELIMITER '{2}' csv header";
+PGPASSWORD='{0}' psql --host {1} --port {2} --username postgres -d datawarehouse -c "\\copy sandbox.{3} from '/home/ec2-user/dbt/datawarehouse/data/{1}.csv' with DELIMITER '{4}' csv header";
 """
 validate_remove_caracteres_comand = "iconv -f ISO-8859-1 -t UTF-8 /home/ec2-user/dbt/datawarehouse/data/{0}.csv > /home/ec2-user/dbt/datawarehouse/data/{0}_temp.csv && mv /home/ec2-user/dbt/datawarehouse/data/{0}_temp.csv /home/ec2-user/dbt/datawarehouse/data/{0}.csv"
 
@@ -96,7 +99,7 @@ for sensor_file in source_data:
     ssh_delete_table_sandbox = SSHOperator(
         task_id='ssh_delete_tablesandbox_{0}'.format(sensor_file['data']),
         ssh_conn_id="ssh_ec2",
-        command=delete_table_ppostgres.format(sensor_file['data']),
+        command=delete_table_ppostgres.format(pass_rds_postgres, host_rds_postgres, port_rds_postgres, sensor_file['data']),
         do_xcom_push=True,
         dag=dag
     )
@@ -105,7 +108,8 @@ for sensor_file in source_data:
     if sensor_file['type'] == 'dbt':
         command = dbt_seed.format(sensor_file['data'])
     else:
-        command = copy_postgres.format(sensor_file['data'], sensor_file['data'], sensor_file['delimiter'])
+        command = copy_postgres.format(pass_rds_postgres, host_rds_postgres, port_rds_postgres, sensor_file['data'],
+                                       sensor_file['data'], sensor_file['delimiter'])
 
     ssh_sandbox = SSHOperator(
         task_id='ssh_sandbox_{0}'.format(sensor_file['data']),
