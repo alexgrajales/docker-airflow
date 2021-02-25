@@ -62,5 +62,5 @@ pip install -r requirements.txt
 (echo "access_key=''"; echo "secret_key=''"; echo "bucket='nombrebukect'") > settings.py
 mkdir .aws
 cd .aws
-(echo "[default]"; echo "aws_access_key_id=AKIAIOSFODNN7EXAMPLE"; echo "aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY") > credentials
+(echo "[default]"; echo "aws_access_key_id="; echo "aws_secret_access_key=") > credentials
 (echo "[default]"; echo "region=us-west-2"; echo "output=json") > config
