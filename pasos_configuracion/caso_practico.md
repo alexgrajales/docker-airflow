@@ -94,3 +94,7 @@ CREATE TABLE data_covid (
 
 # correcion de profile en dbt una sola base de datos con dos shcemas 
 
+# abrir puerto 8001 en la instancia
+ejecutar 
+dbt docs generate --vars "{'schema': 'sandbox'}"
+dbt docs serve --port 8001

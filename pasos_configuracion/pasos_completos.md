@@ -13,9 +13,9 @@
 9. sudo service docker start
 10. sudo docker-compose version
 # docker compose https://acloudxpert.com/how-to-install-docker-compose-on-amazon-linux-ami/
-11. sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-`uname -s`-`uname -m` | sudo tee /usr/local/bin/docker-compose > /dev/null
+11. sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 12. sudo chmod +x /usr/local/bin/docker-compose
-13. ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+13. sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 14. docker-compose --version
 # instalar git
 15. sudo yum install git -y 
