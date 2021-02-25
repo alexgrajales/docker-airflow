@@ -38,7 +38,7 @@ PGPASSWORD='{0}' psql --host {1} --port {2} --username postgres -d datawarehouse
 """
 
 copy_postgres = """
-PGPASSWORD='{0}' psql --host {1} --port {2} --username postgres -d datawarehouse -c "\\copy sandbox.{3} from '/home/ec2-user/dbt/datawarehouse/data/{3}.csv' with DELIMITER '{4}' csv header";
+PGPASSWORD='{0}' psql --host {1} --port {2} --username postgres -d datawarehouse -c "\\copy sandbox.{3} from '/home/ec2-user/dbt/datawarehouse/data/{4}.csv' with DELIMITER '{5}' csv header";
 """
 validate_remove_caracteres_comand = "iconv -f ISO-8859-1 -t UTF-8 /home/ec2-user/dbt/datawarehouse/data/{0}.csv > /home/ec2-user/dbt/datawarehouse/data/{0}_temp.csv && mv /home/ec2-user/dbt/datawarehouse/data/{0}_temp.csv /home/ec2-user/dbt/datawarehouse/data/{0}.csv"
 
