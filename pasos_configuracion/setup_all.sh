@@ -67,7 +67,7 @@ cd .aws
 ---------------------------------------------
 sudo docker exec -it docker-airflow_worker_1 /bin/bash
 cd keys
-ssh-keygen -t rsa -f my_rsa_key
+ssh-keygen -f my_rsa_key
 exit
 cat /home/ec2-user/imagenes/docker-airflow-custom/docker-airflow/keys/my_rsa_key.pub >> /home/ec2-user/.ssh/authorized_keys
 ---------------------------------------------
