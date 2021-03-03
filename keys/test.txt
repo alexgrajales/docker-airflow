@@ -1,0 +1,89 @@
+PREGUNTAS
+1 .metabase permite
+a. crear etls
+b. orquestar flujos
+c. crear informes, dashboard, etc
+d. subir data al datawarehouse
+R://c
+
+2. metabase permite subir archivos csv para visualizar
+a. si
+b. no
+R:// no
+
+3. metabase tiene un asistente de lenguaje natural
+a. si
+b. no
+R:// si
+
+4. puedo crear preguntas por medio de sql en metabase
+a. si
+b. no
+R:// si
+
+5. dbt permite
+a. extraer datos
+b. cargar datos
+c. transformar datos
+R:// c
+
+6. la configuracion de la conexion a la base de datos se implementa en el archivo
+a. .dbt/profiles.yml
+b. .dbt/credencials
+c. .dbt/settings.yml
+d. nunguna de las anteriores
+R:// a
+
+7. dbt permite desplegar la documentacion
+a. si
+b. no
+R:// si
+
+8. airflow es un orquestador de procesos
+a. si
+b. no
+R:// si
+
+9. los operadores de airflow permiten
+a. tener archivos de configuracion
+b. usar funcionalidad ya implementada en la libreria de airflow, reutilizar codigo
+c. hacer operaciones matematicas
+R:// b
+
+
+10. airflow permite (seleccione 2)
+a. programar flujo
+b. monitorear flujos
+c. crear dashboard
+d.
+
+11. airflow es open source
+a. si
+b. no
+R:// si
+
+12. en airflow puedo programar tareas
+a. si
+b. no
+R:// si
+
+
+13. dag significa
+a. detect acyclic graph
+b. dimension active graph
+c. directed active graph
+d. directed acyclic graph
+R:// d
+
+14. para crear dependencias en arflos lo puedo hacer con (seleccione 2)
+a. >>, <<
+b. [[, ]]
+c. set_downstream, set_upstream
+d. //,\\
+R:// a, c
+
+15. puedo almacenar variables con xcom y leerlas en otros steps
+a. si
+b. no
+R:// si
+

@@ -43,7 +43,9 @@ validate_remove_caracteres_comand = "iconv -f ISO-8859-1 -t UTF-8 /home/ec2-user
 
 source_data = [{'data': 'data_covid', 'type': 'postgres', 'delimiter': ','},
                {'data': 'data_covid_uci_bogota', 'type': 'postgres', 'delimiter': ';'},
-               {'data': 'data_ciudades', 'type': 'postgres', 'delimiter': ';'}]
+               {'data': 'data_ciudades', 'type': 'postgres', 'delimiter': ';'},
+               {'data': 'data_SPA_jovenes', 'type': 'postgres', 'delimiter': ';'}
+               ]
 
 default_args = {
     'owner': 'learning',
